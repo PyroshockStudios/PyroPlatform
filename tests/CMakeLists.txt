@@ -46,7 +46,7 @@ set_target_properties(TestsPlatform PROPERTIES MSVC_RUNTIME_LIBRARY "MultiThread
 gtest_discover_tests(TestsPlatform)
 
 target_link_libraries(TestsPlatform
-  Pyroshock::Platform
+  PyroPlatform::PyroPlatform
   GTest::gmock
   GTest::gtest_main
   GTest::gmock_main

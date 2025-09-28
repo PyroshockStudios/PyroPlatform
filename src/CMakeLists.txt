@@ -109,7 +109,7 @@ add_library(PyroPlatform SHARED ${ENDF6_SRC})
 else()
 add_library(PyroPlatform STATIC ${ENDF6_SRC})
 endif()
-add_library(Pyroshock::Platform ALIAS PyroPlatform)
+add_library(PyroPlatform::PyroPlatform ALIAS PyroPlatform)
 
 foreach(_source IN ITEMS ${ENDF6_SRC})
     get_filename_component(_source_path "${_source}" PATH)
