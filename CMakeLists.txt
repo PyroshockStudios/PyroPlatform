@@ -24,12 +24,17 @@ include(Config.cmake)
 
 if(NOT DEFINED PYRO_COMMON_DIR)
     set(PYRO_COMMON_BUILD_TESTS OFF)
-    if (PYRO_PLATFORM_SHARED_LIBRARY) 
-       set(PYRO_COMMON_SHARED_LIBRARY ON)
-    endif()
-    set(PYRO_COMMON_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/PyroCommon")
-	message("PYRO_COMMON_DIR not set, defaulting to ${PYRO_COMMON_DIR}") 
+    set(PYRO_COMMON_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/PyroCommon" CACHE PATH "Path to PyroCommon")
+    message(STATUS "PYRO_COMMON_DIR not set, defaulting to ${PYRO_COMMON_DIR}")
 endif()
+
+# Make sure the folder exists
+if(NOT EXISTS "${PYRO_COMMON_DIR}/CMakeLists.txt")
+    message(FATAL_ERROR "PyroCommon not found at ${PYRO_COMMON_DIR}")
+endif()
+
+# Binary folder for PyroCommon inside your build tree
+set(PYRO_COMMON_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/PyroCommon")
 
 # ==== Project Config ====
 

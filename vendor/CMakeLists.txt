@@ -1,5 +1,5 @@
 # Common
-add_subdirectory(${PYRO_COMMON_DIR})
+add_subdirectory(${PYRO_COMMON_DIR} ${PYRO_COMMON_BUILD_DIR})
 
 
 if (PYRO_PLATFORM_WINDOWING_GLFW)
