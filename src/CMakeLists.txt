@@ -130,7 +130,7 @@ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 
 target_compile_features(PyroPlatform PRIVATE cxx_std_23)
 
-target_link_libraries(PyroPlatform PUBLIC Pyroshock::Common)
+target_link_libraries(PyroPlatform PUBLIC PyroCommon::PyroCommon)
 
 if (PYRO_PLATFORM_WINDOWING_GLFW)
 	target_link_libraries(PyroPlatform PUBLIC glfw)
