@@ -22,6 +22,7 @@
 
 #include "Factory.hpp"
 
+#ifndef PYRO_PLATFORM_DUMMY_INTERFACE
 // FILE
 #ifdef PYRO_PLATFORM_FILE
 
@@ -102,11 +103,12 @@
 #endif
 #endif
 
-
+#endif
 
 namespace PyroshockStudios {
     inline namespace Platform {
 #ifdef PYRO_PLATFORM_FILE
+#ifndef PYRO_PLATFORM_DUMMY_INTERFACE
         static FileSystem gFileSystem;
         static LibraryLoader gLibraryLoader;
         template <>
@@ -117,22 +119,46 @@ namespace PyroshockStudios {
         PYRO_PLATFORM_API ILibraryLoader* PlatformFactory::Get<ILibraryLoader>() {
             return &gLibraryLoader;
         }
+#else
+        template <>
+        PYRO_PLATFORM_API IFileSystem* PlatformFactory::Get<IFileSystem>() {
+            return nullptr;
+        }
+        template <>
+        PYRO_PLATFORM_API ILibraryLoader* PlatformFactory::Get<ILibraryLoader>() {
+            return nullptr;
+        }
+#endif
 #endif
 
 #ifdef PYRO_PLATFORM_TIME
+#ifndef PYRO_PLATFORM_DUMMY_INTERFACE
         static Clock gClock;
         template <>
         PYRO_PLATFORM_API IClock* PlatformFactory::Get<IClock>() {
             return &gClock;
         }
+#else
+        template <>
+        PYRO_PLATFORM_API IClock* PlatformFactory::Get<IClock>() {
+            return nullptr;
+        }
+#endif
 #endif
 
 #ifdef PYRO_PLATFORM_WINDOWING
+#ifndef PYRO_PLATFORM_DUMMY_INTERFACE
         static WindowManager gWindowManager;
         template <>
         PYRO_PLATFORM_API IWindowManager* PlatformFactory::Get<IWindowManager>() {
             return &gWindowManager;
         }
+#else
+        template <>
+        PYRO_PLATFORM_API IWindowManager* PlatformFactory::Get<IWindowManager>() {
+            return nullptr;
+        }
+#endif
 #endif
 
     }; // namespace Platform

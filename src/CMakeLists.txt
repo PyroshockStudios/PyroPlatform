@@ -16,25 +16,27 @@ if(PYRO_PLATFORM_FILE)
         "${SH_SRC}/File/*.hpp"
     )
     list(APPEND ENDF6_SRC ${PLATFORM_FILE_INTERFACE})
-    file(GLOB_RECURSE PLATFORM_FILE_SRC
-        "${SH_SRC}/File/Platforms/${PYRO_PLATFORM_DIRNAME}/*.hpp"
-        "${SH_SRC}/File/Platforms/${PYRO_PLATFORM_DIRNAME}/*.cpp"
-    )
-    list(APPEND ENDF6_SRC ${PLATFORM_FILE_SRC})
+	if (NOT PYRO_PLATFORM_DUMMY_INTERFACE)
+		file(GLOB_RECURSE PLATFORM_FILE_SRC
+			"${SH_SRC}/File/Platforms/${PYRO_PLATFORM_DIRNAME}/*.hpp"
+			"${SH_SRC}/File/Platforms/${PYRO_PLATFORM_DIRNAME}/*.cpp"
+		)
+		list(APPEND ENDF6_SRC ${PLATFORM_FILE_SRC})
 
-    if(APPLE)
-        file(GLOB_RECURSE PLATFORM_FILE_MM
-            "${SH_SRC}/File/Platforms/${PYRO_PLATFORM_DIRNAME}/*.mm"
-        )
-        list(APPEND ENDF6_SRC ${PLATFORM_FILE_MM})
-    endif()
-    if(UNIX)
-        file(GLOB_RECURSE PLATFORM_FILE_UNIX
-            "${SH_SRC}/File/Platforms/Unix/*.hpp"
-            "${SH_SRC}/File/Platforms/Unix/*.cpp"
-        )
-        list(APPEND ENDF6_SRC ${PLATFORM_FILE_UNIX})
-    endif()
+		if(APPLE)
+			file(GLOB_RECURSE PLATFORM_FILE_MM
+				"${SH_SRC}/File/Platforms/${PYRO_PLATFORM_DIRNAME}/*.mm"
+			)
+			list(APPEND ENDF6_SRC ${PLATFORM_FILE_MM})
+		endif()
+		if(UNIX)
+			file(GLOB_RECURSE PLATFORM_FILE_UNIX
+				"${SH_SRC}/File/Platforms/Unix/*.hpp"
+				"${SH_SRC}/File/Platforms/Unix/*.cpp"
+			)
+			list(APPEND ENDF6_SRC ${PLATFORM_FILE_UNIX})
+		endif()
+	endif()
 endif()
 
 # ------------------------------
@@ -45,25 +47,28 @@ if(PYRO_PLATFORM_TIME)
         "${SH_SRC}/Time/*.hpp"
     )
     list(APPEND ENDF6_SRC ${PLATFORM_TIME_INTERFACE})
-    file(GLOB_RECURSE PLATFORM_TIME_SRC
-        "${SH_SRC}/Time/Platforms/${PYRO_PLATFORM_DIRNAME}/*.hpp"
-        "${SH_SRC}/Time/Platforms/${PYRO_PLATFORM_DIRNAME}/*.cpp"
-    )
-    list(APPEND ENDF6_SRC ${PLATFORM_TIME_SRC})
+	
+	if (NOT PYRO_PLATFORM_DUMMY_INTERFACE)
+		file(GLOB_RECURSE PLATFORM_TIME_SRC
+			"${SH_SRC}/Time/Platforms/${PYRO_PLATFORM_DIRNAME}/*.hpp"
+			"${SH_SRC}/Time/Platforms/${PYRO_PLATFORM_DIRNAME}/*.cpp"
+		)
+		list(APPEND ENDF6_SRC ${PLATFORM_TIME_SRC})
 
-    if(APPLE)
-        file(GLOB_RECURSE PLATFORM_TIME_MM
-            "${SH_SRC}/Time/Platforms/${PYRO_PLATFORM_DIRNAME}/*.mm"
-        )
-        list(APPEND ENDF6_SRC ${PLATFORM_TIME_MM})
-    endif()
-    if(UNIX)
-        file(GLOB_RECURSE PLATFORM_TIME_UNIX
-            "${SH_SRC}/Time/Platforms/Unix/*.hpp"
-            "${SH_SRC}/Time/Platforms/Unix/*.cpp"
-        )
-        list(APPEND ENDF6_SRC ${PLATFORM_TIME_UNIX})
-    endif()
+		if(APPLE)
+			file(GLOB_RECURSE PLATFORM_TIME_MM
+				"${SH_SRC}/Time/Platforms/${PYRO_PLATFORM_DIRNAME}/*.mm"
+			)
+			list(APPEND ENDF6_SRC ${PLATFORM_TIME_MM})
+		endif()
+		if(UNIX)
+			file(GLOB_RECURSE PLATFORM_TIME_UNIX
+				"${SH_SRC}/Time/Platforms/Unix/*.hpp"
+				"${SH_SRC}/Time/Platforms/Unix/*.cpp"
+			)
+			list(APPEND ENDF6_SRC ${PLATFORM_TIME_UNIX})
+		endif()
+	endif()
 endif()
 
 # ------------------------------
@@ -74,24 +79,27 @@ if(PYRO_PLATFORM_WINDOWING)
         "${SH_SRC}/Window/*.hpp"
     )
     list(APPEND ENDF6_SRC ${PLATFORM_WINDOWING_INTERFACE})
-    file(GLOB_RECURSE PLATFORM_WINDOWING_INPUT_SRC
-        "${SH_SRC}/Window/Input/*.hpp"
-        "${SH_SRC}/Window/Input/*.cpp"
-    )
-    list(APPEND ENDF6_SRC ${PLATFORM_WINDOWING_INPUT_SRC})
 	
-    file(GLOB_RECURSE PLATFORM_WINDOW_SRC
-        "${SH_SRC}/Window/Platforms/${PYRO_PLATFORM_WINDOWING_DIRNAME}/*.hpp"
-        "${SH_SRC}/Window/Platforms/${PYRO_PLATFORM_WINDOWING_DIRNAME}/*.cpp"
-    )
-    list(APPEND ENDF6_SRC ${PLATFORM_WINDOW_SRC})
+	file(GLOB_RECURSE PLATFORM_WINDOWING_INPUT_SRC
+		"${SH_SRC}/Window/Input/*.hpp"
+		"${SH_SRC}/Window/Input/*.cpp"
+	)
+	list(APPEND ENDF6_SRC ${PLATFORM_WINDOWING_INPUT_SRC})
+		
+	if (NOT PYRO_PLATFORM_DUMMY_INTERFACE)
+		file(GLOB_RECURSE PLATFORM_WINDOW_SRC
+			"${SH_SRC}/Window/Platforms/${PYRO_PLATFORM_WINDOWING_DIRNAME}/*.hpp"
+			"${SH_SRC}/Window/Platforms/${PYRO_PLATFORM_WINDOWING_DIRNAME}/*.cpp"
+		)
+		list(APPEND ENDF6_SRC ${PLATFORM_WINDOW_SRC})
 
-    if(APPLE)
-        file(GLOB_RECURSE PLATFORM_WINDOW_MM
-            "${SH_SRC}/Window/Platforms/${PYRO_PLATFORM_WINDOWING_DIRNAME}/*.mm"
-        )
-        list(APPEND ENDF6_SRC ${PLATFORM_WINDOW_MM})
-    endif()
+		if(APPLE)
+			file(GLOB_RECURSE PLATFORM_WINDOW_MM
+				"${SH_SRC}/Window/Platforms/${PYRO_PLATFORM_WINDOWING_DIRNAME}/*.mm"
+			)
+			list(APPEND ENDF6_SRC ${PLATFORM_WINDOW_MM})
+		endif()
+	endif()
 endif()
 
 

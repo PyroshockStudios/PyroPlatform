@@ -1,5 +1,6 @@
 # ==== Test config ====
 option(PYRO_PLATFORM_BUILD_TESTS "Build tests" ON) 
+option(PYRO_PLATFORM_DUMMY_INTERFACE "Disables implementations. Useful for CI/CD where it's pointless to build the implementation to see if the project builds." OFF) 
 option(PYRO_PLATFORM_SHARED_LIBRARY "Build Platform as shared library" OFF) 
 option(PYRO_PLATFORM_FILE "Include filesystem capabilities (including loading dlls and such)" ON) 
 option(PYRO_PLATFORM_TIME "Include time fuctionalities" ON) 
@@ -21,14 +22,19 @@ if (PYRO_PLATFORM_WINDOWING)
 	set_property(CACHE PYRO_PLATFORM_WINDOWING_SYSTEM PROPERTY STRINGS "GLFW")
 
 	message(STATUS "Selected windowing system: ${PYRO_WINDOWING_SYSTEM}")
-
-	# Set macros accordingly
-	if(PYRO_PLATFORM_WINDOWING_SYSTEM STREQUAL "GLFW")
-		add_definitions(-DPYRO_PLATFORM_WINDOWING_GLFW=1)
-		set(PYRO_PLATFORM_WINDOWING_GLFW 1)
-		set(PYRO_PLATFORM_WINDOWING_DIRNAME "Glfw")
+	
+	if (PYRO_PLATFORM_DUMMY_INTERFACE)
+		add_definitions(-DPYRO_PLATFORM_DUMMY_INTERFACE=1)
+		message("PYRO_PLATFORM_DUMMY_INTERFACE is ON, disabling any implementations.")
 	else()
-		message(FATAL_ERROR "Unsupported windowing system: ${PYRO_WINDOWING_SYSTEM}")
+		# Set macros accordingly
+		if(PYRO_PLATFORM_WINDOWING_SYSTEM STREQUAL "GLFW")
+			add_definitions(-DPYRO_PLATFORM_WINDOWING_GLFW=1)
+			set(PYRO_PLATFORM_WINDOWING_GLFW 1)
+			set(PYRO_PLATFORM_WINDOWING_DIRNAME "Glfw")
+		else()
+			message(FATAL_ERROR "Unsupported windowing system: ${PYRO_WINDOWING_SYSTEM}")
+		endif()
 	endif()
 endif()
 if (APPLE)
