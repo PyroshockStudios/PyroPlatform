@@ -22,6 +22,7 @@
 
 #include "MacFileSystem.hpp"
 #include <limits.h>
+#include <unistd.h>
 #include <mach-o/dyld.h>
 
 #include <libassert/assert.hpp>

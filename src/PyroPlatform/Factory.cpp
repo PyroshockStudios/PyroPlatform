@@ -37,7 +37,6 @@
 
 #ifdef PYRO_PLATFORM_LINUX
 #include <PyroPlatform/File/Platforms/Linux/LinuxFileSystem.hpp>
-#include <PyroPlatform/File/Platforms/Linux/LinuxLibraryLoader.hpp>
 
 #define FileSystem LinuxFileSystem
 
