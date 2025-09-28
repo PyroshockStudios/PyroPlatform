@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 #include "GlfwWindow.hpp"
-#ifdef PYRO_PLATFORM_WINDOWING_GLFW
 #define GLFW_EXPOSE_NATIVE_COCOA
 #include <Cocoa/Cocoa.h>  // For 'id' and NSWindow/NSView
 #include <CoreGraphics/CoreGraphics.h> // For CGDirectDisplayID
@@ -36,7 +35,6 @@
 namespace PyroshockStudios {
 	inline namespace Platform {
 		NativeHandle GlfwWindow::GetNativeWindow() const {
-            BlockUntilInitialised();
 			return reinterpret_cast<NativeHandle>(glfwGetCocoaWindow(mWindow));
 		}
 
@@ -45,4 +43,3 @@ namespace PyroshockStudios {
 		}
 	}
 }
-#endif
