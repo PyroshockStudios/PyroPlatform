@@ -1,0 +1,6 @@
+[submodule "vendor/PyroCommon"]
+	path = vendor/PyroCommon
+	url = https://github.com/PyroshockStudios/PyroCommon.git
+[submodule "vendor/glfw"]
+	path = vendor/glfw
+	url = https://github.com/glfw/glfw.git
