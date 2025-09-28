@@ -1,9 +1,6 @@
 # Common
-set(PYRO_COMMON_BUILD_TESTS OFF)
-if (PYRO_PLATFORM_SHARED_LIBRARY) 
-set(PYRO_COMMON_SHARED_LIBRARY ON)
-endif()
-add_subdirectory(PyroCommon)
+add_subdirectory(${PYRO_COMMON_DIR})
+
 
 if (PYRO_PLATFORM_WINDOWING_GLFW)
     # glfw

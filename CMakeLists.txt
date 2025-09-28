@@ -21,6 +21,16 @@ add_compile_options()
 endif()
 
 include(Config.cmake)
+
+if(NOT DEFINED PYRO_COMMON_DIR)
+    set(PYRO_COMMON_BUILD_TESTS OFF)
+    if (PYRO_PLATFORM_SHARED_LIBRARY) 
+       set(PYRO_COMMON_SHARED_LIBRARY ON)
+    endif()
+    set(PYRO_COMMON_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/PyroCommon")
+	message("PYRO_COMMON_DIR not set, defaulting to ${PYRO_COMMON_DIR}") 
+endif()
+
 # ==== Project Config ====
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
