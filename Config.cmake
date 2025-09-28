@@ -25,7 +25,7 @@ if (PYRO_PLATFORM_WINDOWING)
 	
 	if (PYRO_PLATFORM_DUMMY_INTERFACE)
 		add_definitions(-DPYRO_PLATFORM_DUMMY_INTERFACE=1)
-		message("PYRO_PLATFORM_DUMMY_INTERFACE is ON, disabling any implementations.")
+		message(STATUS "PYRO_PLATFORM_DUMMY_INTERFACE is ON, disabling any implementations.")
 	else()
 		# Set macros accordingly
 		if(PYRO_PLATFORM_WINDOWING_SYSTEM STREQUAL "GLFW")
