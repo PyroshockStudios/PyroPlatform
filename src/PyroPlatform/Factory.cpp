@@ -81,7 +81,7 @@
 #ifdef PYRO_PLATFORM_FAMILY_UNIX
 #include <PyroPlatform/Time/Platforms/Unix/UnixClock.hpp>
 
-#define LibraryLoader UnixClock
+#define Clock UnixClock
 
 #endif
 
