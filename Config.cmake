@@ -1,5 +1,5 @@
 # ==== Test config ====
-option(PYRO_PLATFORM_BUILD_TESTS "Build tests" ON) 
+option(PYRO_PLATFORM_BUILD_TESTS "Build tests" OFF) 
 option(PYRO_PLATFORM_DUMMY_INTERFACE "Disables implementations. Useful for CI/CD where it's pointless to build the implementation to see if the project builds." OFF) 
 option(PYRO_PLATFORM_SHARED_LIBRARY "Build Platform as shared library" OFF) 
 option(PYRO_PLATFORM_FILE "Include filesystem capabilities (including loading dlls and such)" ON) 
