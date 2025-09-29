@@ -33,7 +33,7 @@
 
 namespace PyroshockStudios {
     inline namespace Platform {
-        static const ILogStream* gGlfwSink = nullptr;
+        const ILogStream* gGlfwSink = nullptr;
 
         bool GlfwWindowManager::Init() {
             mMonitors.clear();

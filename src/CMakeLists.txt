@@ -104,12 +104,24 @@ endif()
 
 
 if (PYRO_PLATFORM_SHARED_LIBRARY)
-add_compile_definitions(PYRO_PLATFORM_SHARED_LIBRARY=1)
 add_library(PyroPlatform SHARED ${ENDF6_SRC})
+target_compile_definitions(PyroPlatform PUBLIC PYRO_PLATFORM_SHARED_LIBRARY=1)
 else()
 add_library(PyroPlatform STATIC ${ENDF6_SRC})
 endif()
 add_library(PyroPlatform::PyroPlatform ALIAS PyroPlatform)
+
+
+if (PYRO_PLATFORM_FILE) 
+target_compile_definitions(PyroPlatform PUBLIC PYRO_PLATFORM_FILE=1)
+endif()
+if (PYRO_PLATFORM_TIME) 
+target_compile_definitions(PyroPlatform PUBLIC PYRO_PLATFORM_TIME=1)
+endif()
+if (PYRO_PLATFORM_WINDOWING) 
+target_compile_definitions(PyroPlatform PUBLIC PYRO_PLATFORM_WINDOWING=1)
+endif()
+
 
 foreach(_source IN ITEMS ${ENDF6_SRC})
     get_filename_component(_source_path "${_source}" PATH)
