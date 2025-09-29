@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "GlfwWindowManager.hpp"
+#include <PyroCommon/Logger.hpp>
 #include <PyroPlatform/Window/Platforms/Glfw/GlfwCursor.hpp>
 #include <PyroPlatform/Window/Platforms/Glfw/GlfwWindow.hpp>
 
@@ -29,8 +30,11 @@
 #include <GLFW/glfw3.h>
 #include <libassert/assert.hpp>
 
+
 namespace PyroshockStudios {
     inline namespace Platform {
+        static const ILogStream* gGlfwSink = nullptr;
+
         bool GlfwWindowManager::Init() {
             mMonitors.clear();
             mMonitorsStorage.clear();
@@ -58,12 +62,17 @@ namespace PyroshockStudios {
                     mMonitorsStorage.emplace_back(eastl::make_shared<GlfwMonitor>(glfwMonitors[i]));
                     mMonitors.push_back(mMonitorsStorage.back().get());
                 }
+            } else {
+                const char* err;
+                glfwGetError(&err);
+                Logger::Error(gGlfwSink, "Failed to initialise GLFW! Reason: {}", err);
             }
             bInitialised = result;
             return result;
         }
 
         bool GlfwWindowManager::Terminate() {
+            Logger::Trace(gGlfwSink, "Terminating GLFW");
             glfwTerminate();
             mMonitors.clear();
             mMonitorsStorage.clear();
@@ -108,6 +117,9 @@ namespace PyroshockStudios {
                 if (glfwMonitor == primary)
                     return monitor;
             }
+            const char* err;
+            glfwGetError(&err);
+            Logger::Error(gGlfwSink, "No monitor was found! Reason: {}", err);
             return nullptr;
         }
 
@@ -121,12 +133,15 @@ namespace PyroshockStudios {
             glfwWindowHint(GLFW_FLOATING, info.flags & WindowCreateBits::TOP_MOST ? GLFW_TRUE : GLFW_FALSE);
             glfwWindowHint(GLFW_MOUSE_PASSTHROUGH, info.flags & WindowCreateBits::PASSTHROUGH ? GLFW_TRUE : GLFW_FALSE);
             glfwWindowHint(GLFW_SCALE_TO_MONITOR, info.flags & WindowCreateBits::HIGH_DPI ? GLFW_TRUE : GLFW_FALSE);
+
+            Logger::Trace(gGlfwSink, "Creating window \"{}\" with size {}x{}", info.title, info.width, info.height);
             return new GlfwWindow(info.width, info.height, info.title.c_str(), nullptr, nullptr);
         }
 
         void GlfwWindowManager::DestroyWindow(IWindow*& window) {
             ASSERT(bInitialised, "Window manager not initialised!");
             ASSERT(dynamic_cast<GlfwWindow*>(window) != nullptr, "Type must be of GlfwWindow!");
+            Logger::Trace(gGlfwSink, "Destroying window \"{}\"", window->GetTitle());
             GlfwWindow* wnd = static_cast<GlfwWindow*>(window);
             delete wnd;
             window = nullptr;
@@ -167,8 +182,12 @@ namespace PyroshockStudios {
                 cur = glfwCreateStandardCursor(GLFW_VRESIZE_CURSOR);
                 break;
             }
-            if (!cur)
+            if (!cur) {
+                const char* err;
+                glfwGetError(&err);
+                Logger::Error(gGlfwSink, "Failed to create cursor! Reason: {}", err);
                 return nullptr;
+            }
             return new GlfwCursor(cur);
         }
 
@@ -231,13 +250,21 @@ namespace PyroshockStudios {
             return static_cast<KeyCode>(key);
         }
 
+        void GlfwWindowManager::InjectLogger(const ILogStream* stream) {
+            gGlfwSink = stream;
+        }
+
         void GlfwWindowManager::MonitorConnectedCallback(GLFWmonitor* monitor) {
+            const char* name = glfwGetMonitorName(monitor);
+            Logger::Error(gGlfwSink, "Monitor \"{}\" connected", name ? name : "NAME_ERROR");
             auto* self = reinterpret_cast<GlfwWindowManager*>(glfwGetMonitorUserPointer(monitor));
             self->mMonitorsStorage.emplace_back(eastl::make_shared<GlfwMonitor>(monitor));
             self->mMonitors.push_back(self->mMonitorsStorage.back().get());
         }
 
         void GlfwWindowManager::MonitorDisconnectedCallback(GLFWmonitor* monitor) {
+            const char* name = glfwGetMonitorName(monitor);
+            Logger::Error(gGlfwSink, "Monitor \"{}\" disconnected", name ? name : "NAME_ERROR");
             auto* self = reinterpret_cast<GlfwWindowManager*>(glfwGetMonitorUserPointer(monitor));
             auto it = eastl::find_if(self->mMonitorsStorage.begin(), self->mMonitorsStorage.end(),
                 [monitor](const eastl::shared_ptr<GlfwMonitor>& m) { return m->GetGLFWMonitor() == monitor; });

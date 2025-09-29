@@ -25,6 +25,7 @@
 
 #include <EASTL/span.h>
 #include <PyroCommon/Types.hpp>
+#include <PyroCommon/LoggerInterface.hpp>
 #include <PyroPlatform/Window/ICursor.hpp>
 #include <PyroPlatform/Window/IMonitor.hpp>
 #include <PyroPlatform/Window/IWindow.hpp>
@@ -37,8 +38,9 @@ namespace PyroshockStudios {
             Logical   // Layout-dependent (after translation)
         };
 
-        struct IWindowManager {
+        struct IWindowManager : ILoggerAware {
             IWindowManager() = default;
+
             virtual bool Init() = 0;
             virtual bool Terminate() = 0;
 
