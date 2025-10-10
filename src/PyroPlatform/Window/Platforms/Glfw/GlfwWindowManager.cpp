@@ -33,7 +33,7 @@
 
 namespace PyroshockStudios {
     inline namespace Platform {
-        const ILogStream* gGlfwSink = nullptr;
+        ILogStream* gGlfwSink = nullptr;
 
         bool GlfwWindowManager::Init() {
             mMonitors.clear();
@@ -250,7 +250,7 @@ namespace PyroshockStudios {
             return static_cast<KeyCode>(key);
         }
 
-        void GlfwWindowManager::InjectLogger(const ILogStream* stream) {
+        void GlfwWindowManager::InjectLogger(ILogStream* stream) {
             gGlfwSink = stream;
         }
 

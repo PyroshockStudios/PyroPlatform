@@ -51,7 +51,7 @@ namespace PyroshockStudios {
             void DestroyCursor(ICursor*& cursor) override;
             KeyCode TranslateKey(i32 key, i32 scancode, KeySource source) override;
 
-            void InjectLogger(const ILogStream* stream) override;
+            void InjectLogger(ILogStream* stream) override;
         private:
             static void MonitorConnectedCallback(GLFWmonitor* monitor);
             static void MonitorDisconnectedCallback(GLFWmonitor* monitor);

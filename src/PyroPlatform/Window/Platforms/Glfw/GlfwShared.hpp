@@ -25,6 +25,6 @@
 namespace PyroshockStudios {
     inline namespace Platform {
         // implemented in GlfwWindowManager.cpp
-        extern const ILogStream* gGlfwSink;
+        extern ILogStream* gGlfwSink;
     } // namespace Platform
 } // namespace PyroshockStudios
