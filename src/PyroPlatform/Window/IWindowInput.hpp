@@ -27,7 +27,7 @@
 namespace PyroshockStudios {
     inline namespace Platform {
         struct IWindow;
-        struct WindowEvents;
+        class WindowEvents;
         struct IWindowInput {
             IWindowInput() = default;
 
