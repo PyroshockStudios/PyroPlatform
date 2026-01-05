@@ -6,17 +6,7 @@ option(PYRO_PLATFORM_FILE "Include filesystem capabilities (including loading dl
 option(PYRO_PLATFORM_TIME "Include time fuctionalities" ON) 
 option(PYRO_PLATFORM_WINDOWING "Include windowing systems" ON) 
 
-if (PYRO_PLATFORM_FILE) 
-	add_definitions(-DPYRO_PLATFORM_FILE=1)
-endif()
-if (PYRO_PLATFORM_TIME) 
-	add_definitions(-DPYRO_PLATFORM_TIME=1)
-endif()
 if (PYRO_PLATFORM_WINDOWING) 
-	add_definitions(-DPYRO_PLATFORM_WINDOWING=1)
-endif()
-if (PYRO_PLATFORM_WINDOWING) 
-	add_definitions(-DPYRO_PLATFORM_WINDOWING=1)
 	# ==== Windowing Backends ====
 	set(PYRO_PLATFORM_WINDOWING_SYSTEM "GLFW" CACHE STRING "Windowing system")
 	set_property(CACHE PYRO_PLATFORM_WINDOWING_SYSTEM PROPERTY STRINGS "GLFW")

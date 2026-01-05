@@ -35,7 +35,7 @@ namespace PyroshockStudios {
 
         eastl::string GlfwMonitor::GetName() const {
             const char* name = glfwGetMonitorName(mMonitor);
-            return name ? eastl::string(name) : eastl::string("Unknown");
+            return name ? eastl::string(name) : eastl::string("NAME_ERROR");
         }
 
         Point GlfwMonitor::GetPosition() const {

@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "GlfwWindow.hpp"
+#include "GlfwShared.hpp"
 #include <PyroCommon/Logger.hpp>
 #include <PyroPlatform/Window/Platforms/Glfw/GlfwCursor.hpp>
 #include <PyroPlatform/Window/Platforms/Glfw/GlfwMonitor.hpp>
@@ -299,7 +300,7 @@ namespace PyroshockStudios {
 #elif PYRO_PLATFORM_LINUX
             NativeHandle handle = reinterpret_cast<NativeHandle>(glfwGetX11Window(mWindow));
             if (glfwGetError(nullptr) == GLFW_PLATFORM_UNAVAILABLE || !handle) {
-                Logger::Fatal("Failed to get X11 window handle! Is X11 installed, and are any possible translation servers running?");
+                Logger::Fatal(gGlfwSink, "Failed to get X11 window handle! Is X11 installed, and are any possible translation servers running?");
             }
             return handle;
 #else
@@ -313,7 +314,7 @@ namespace PyroshockStudios {
 #elif PYRO_PLATFORM_LINUX
             NativeHandle handle = reinterpret_cast<NativeHandle>(glfwGetX11Display());
             if (glfwGetError(nullptr) == GLFW_PLATFORM_UNAVAILABLE || !handle) {
-                Logger::Fatal("Failed to get X11 display handle! Is X11 installed, and are any possible translation servers running?");
+                Logger::Fatal(gGlfwSink, "Failed to get X11 display handle! Is X11 installed, and are any possible translation servers running?");
             }
             return handle;
 #else

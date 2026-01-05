@@ -21,24 +21,10 @@
 // SOFTWARE.
 
 #pragma once
-#include <PyroCommon/Types.hpp>
-#include <PyroPlatform/Window/Input/Types.hpp>
-
+#include <PyroCommon/LoggerInterface.hpp>
 namespace PyroshockStudios {
     inline namespace Platform {
-        struct IWindow;
-        class WindowEvents;
-        struct IWindowInput {
-            IWindowInput() = default;
-
-            virtual bool IsKeyDown(KeyCode key) = 0;
-            virtual bool IsMouseDown(MouseButton button) = 0;
-
-            virtual WindowEvents& GetEvents() = 0;
-
-        protected:
-            virtual ~IWindowInput() = default;
-            friend struct IWindow;
-        };
+        // implemented in GlfwWindowManager.cpp
+        extern ILogStream* gGlfwSink;
     } // namespace Platform
 } // namespace PyroshockStudios

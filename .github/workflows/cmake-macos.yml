@@ -28,8 +28,9 @@ jobs:
           -DCMAKE_POLICY_VERSION_MINIMUM=3.5
           -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-          -DPYRO_COMMON_BUILD_TESTS=ON
+          -DPYRO_PLATFORM_BUILD_TESTS=ON
           -DPYRO_COMMON_SHARED_LIBRARY=${{ matrix.shared }}
+          -DPYRO_PLATFORM_SHARED_LIBRARY=${{ matrix.shared }}
           -S .
 
       - name: Build (macOS)
