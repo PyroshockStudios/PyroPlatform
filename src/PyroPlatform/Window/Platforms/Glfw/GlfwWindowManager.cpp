@@ -99,9 +99,9 @@ namespace PyroshockStudios {
             return eastl::string(glfwGetClipboardString(nullptr));
         }
 
-        void GlfwWindowManager::SetClipboardText(eastl::string_view text) {
+        void GlfwWindowManager::SetClipboardText(const eastl::string& text) {
             ASSERT(bInitialised, "Window manager not initialised!");
-            glfwSetClipboardString(nullptr, text.data());
+            glfwSetClipboardString(nullptr, text.c_str());
         }
 
         eastl::span<IMonitor*> GlfwWindowManager::GetMonitors() {

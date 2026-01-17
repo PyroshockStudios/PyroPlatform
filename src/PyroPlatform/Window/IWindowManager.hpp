@@ -49,7 +49,7 @@ namespace PyroshockStudios {
 
             PYRO_NODISCARD virtual bool HasClipboardText() = 0;
             PYRO_NODISCARD virtual eastl::string GetClipboardText() = 0;
-            virtual void SetClipboardText(eastl::string_view text) = 0;
+            virtual void SetClipboardText(const eastl::string& text) = 0;
 
             virtual eastl::span<IMonitor*> GetMonitors() = 0;
             virtual IMonitor* GetPrimaryMonitor() = 0;

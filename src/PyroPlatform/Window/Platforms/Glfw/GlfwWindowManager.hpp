@@ -42,7 +42,7 @@ namespace PyroshockStudios {
 
             bool HasClipboardText() override;
             eastl::string GetClipboardText() override;
-            void SetClipboardText(eastl::string_view text) override;
+            void SetClipboardText(const eastl::string& text) override;
             eastl::span<IMonitor*> GetMonitors() override;
             IMonitor* GetPrimaryMonitor() override;
             IWindow* CreateWindow(const WindowInfo& info) override;
