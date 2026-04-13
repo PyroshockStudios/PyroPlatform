@@ -45,13 +45,17 @@ namespace PyroshockStudios {
             void SetClipboardText(const eastl::string& text) override;
             eastl::span<IMonitor*> GetMonitors() override;
             IMonitor* GetPrimaryMonitor() override;
+            IBitmap* CreateStaticBitmap(const BitmapSource& source) override;
+            void DestroyBitmap(IBitmap*& bitmap) override;
             IWindow* CreateWindow(const WindowInfo& info) override;
             void DestroyWindow(IWindow*& window) override;
             ICursor* CreateCursor(CursorType type) override;
+            ICursor* CreateCursorFromBitmap(IBitmap* bitmap, Point pointerOffset) override;
             void DestroyCursor(ICursor*& cursor) override;
             KeyCode TranslateKey(i32 key, i32 scancode, KeySource source) override;
 
             void InjectLogger(ILogStream* stream) override;
+
         private:
             static void MonitorConnectedCallback(GLFWmonitor* monitor);
             static void MonitorDisconnectedCallback(GLFWmonitor* monitor);

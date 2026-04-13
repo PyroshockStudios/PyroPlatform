@@ -24,8 +24,8 @@
 #include <EASTL/string.h>
 
 #include <EASTL/span.h>
-#include <PyroCommon/Types.hpp>
 #include <PyroCommon/LoggerInterface.hpp>
+#include <PyroCommon/Types.hpp>
 #include <PyroPlatform/Window/ICursor.hpp>
 #include <PyroPlatform/Window/IMonitor.hpp>
 #include <PyroPlatform/Window/IWindow.hpp>
@@ -37,7 +37,12 @@ namespace PyroshockStudios {
             Physical, // Layout-independent
             Logical   // Layout-dependent (after translation)
         };
-
+        // Bitmap data is expected in non-premultiplied RGBA format
+        struct BitmapSource {
+            u32 width = 0;
+            u32 height = 0;
+            eastl::span<const u8> pixels = {};
+        };
         struct IWindowManager : ILoggerAware {
             IWindowManager() = default;
 
@@ -54,11 +59,14 @@ namespace PyroshockStudios {
             virtual eastl::span<IMonitor*> GetMonitors() = 0;
             virtual IMonitor* GetPrimaryMonitor() = 0;
 
+            PYRO_NODISCARD virtual IBitmap* CreateStaticBitmap(const BitmapSource& source) = 0;
+            virtual void DestroyBitmap(IBitmap*& bitmap) = 0;
+
             PYRO_NODISCARD virtual IWindow* CreateWindow(const WindowInfo& info) = 0;
             virtual void DestroyWindow(IWindow*& window) = 0;
 
             PYRO_NODISCARD virtual ICursor* CreateCursor(CursorType type) = 0;
-            // PYRO_NODISCARD virtual ICursor* CreateCursorFromImage(const ImageDesc& img) = 0;
+            PYRO_NODISCARD virtual ICursor* CreateCursorFromBitmap(IBitmap* bitmap, Point pointerOffset = { 0, 0 }) = 0;
             virtual void DestroyCursor(ICursor*& cursor) = 0;
 
             PYRO_NODISCARD virtual KeyCode TranslateKey(i32 key, i32 scancode, KeySource source) = 0;

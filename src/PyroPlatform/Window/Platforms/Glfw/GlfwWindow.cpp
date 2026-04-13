@@ -21,6 +21,8 @@
 // SOFTWARE.
 
 #include "GlfwWindow.hpp"
+
+#include "GlfwBitmap.hpp"
 #include "GlfwShared.hpp"
 #include <PyroCommon/Logger.hpp>
 #include <PyroPlatform/Window/Platforms/Glfw/GlfwCursor.hpp>
@@ -125,6 +127,13 @@ namespace PyroshockStudios {
             auto* glfwCursor = static_cast<GlfwCursor*>(cursor);
             glfwSetCursor(mWindow, glfwCursor->GetGLFWCursor());
         }
+        void GlfwWindow::SetIcon(IBitmap* bitmap) {
+            if (!bitmap) {
+                glfwSetWindowIcon(mWindow, 0, nullptr);
+            } else {
+                glfwSetWindowIcon(mWindow, 1, static_cast<GlfwBitmap*>(bitmap)->GetGLFWImage());
+            }
+        }
 
         void GlfwWindow::SetFullscreen(IMonitor* monitor) {
             auto* glfwMonitor = static_cast<GlfwMonitor*>(monitor)->GetGLFWMonitor();
@@ -180,10 +189,10 @@ namespace PyroshockStudios {
             return static_cast<f32>(fbWidth) / static_cast<f32>(winWidth);
         }
 
-        FSize GlfwWindow::GetContentScale() const {
+        Sizef GlfwWindow::GetContentScale() const {
             float x, y;
             glfwGetWindowContentScale(mWindow, &x, &y);
-            return FSize(x, y);
+            return Sizef(x, y);
         }
 
         CursorMode GlfwWindow::GetCursorMode() const {

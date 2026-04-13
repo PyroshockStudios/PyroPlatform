@@ -21,27 +21,25 @@
 // SOFTWARE.
 
 #pragma once
-#include <EASTL/string.h>
 #include <PyroCommon/Core.hpp>
+#include <PyroPlatform/Window/IBitmap.hpp>
 
+extern "C" struct GLFWimage;
 namespace PyroshockStudios {
     inline namespace Platform {
-        struct IWindowManager;
+        class GlfwBitmap : public IBitmap {
+        public:
+            GlfwBitmap(int width, int height, const unsigned char* pixels);
+            ~GlfwBitmap();
+            const GLFWimage* GetGLFWImage() const {
+                return mBitmap;
+            }
+            u32 GetWidth() const override;
+            u32 GetHeight() const override;
 
-        struct IMonitor {
-            IMonitor() = default;
-
-            PYRO_NODISCARD virtual eastl::string GetName() const = 0;
-            PYRO_NODISCARD virtual Point GetPosition() const = 0;
-            PYRO_NODISCARD virtual Size GetPhysicalSize() const = 0;
-            PYRO_NODISCARD virtual Size GetResolution() const = 0;
-            PYRO_NODISCARD virtual Size GetWorkArea() const = 0;
-            PYRO_NODISCARD virtual Sizef GetContentScale() const = 0;
-            PYRO_NODISCARD virtual u32 GetRefreshRate() const = 0;
-
-        protected:
-            virtual ~IMonitor() = default;
-            friend struct IWindowManager;
+        private:
+            GLFWimage* mBitmap;
         };
+
     } // namespace Platform
 } // namespace PyroshockStudios

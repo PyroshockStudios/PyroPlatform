@@ -20,7 +20,7 @@ public:
     eastl::string title = "Stub Window";
     Size framebufferSize{ 1280, 720 };
     f32 dpiScale = 1.0f;
-    FSize contentScale{ 1.0f, 1.0f };
+    Sizef contentScale{ 1.0f, 1.0f };
     CursorMode cursorMode = CursorMode::Normal;
     bool stickyKeys = false;
     bool stickyMouse = false;
@@ -49,6 +49,7 @@ public:
     void SetOpacity(f32 o) override { opacity = o; }
 
     void SetCursor(ICursor*) override {}
+    void SetIcon(IBitmap*) override {}
     void SetFullscreen(IMonitor*) override {}
     void SetWindowState(WindowState state) override { windowState = state; }
     WindowState GetWindowState() const override { return windowState; }
@@ -58,7 +59,7 @@ public:
 
     Size GetFramebufferSize() const override { return framebufferSize; }
     f32 GetDPIScale() const override { return dpiScale; }
-    FSize GetContentScale() const override { return contentScale; }
+    Sizef GetContentScale() const override { return contentScale; }
 
     CursorMode GetCursorMode() const override { return cursorMode; }
     bool IsStickyKeysEnabled() const override { return stickyKeys; }

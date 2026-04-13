@@ -63,10 +63,10 @@ namespace PyroshockStudios {
             return Size(static_cast<u32>(x), static_cast<u32>(y));
         }
 
-        FSize GlfwMonitor::GetContentScale() const {
+        Sizef GlfwMonitor::GetContentScale() const {
             float xScale = 1.0f, yScale = 1.0f;
             glfwGetMonitorContentScale(mMonitor, &xScale, &yScale);
-            return FSize(xScale, yScale);
+            return Sizef(xScale, yScale);
         }
 
         u32 GlfwMonitor::GetRefreshRate() const {

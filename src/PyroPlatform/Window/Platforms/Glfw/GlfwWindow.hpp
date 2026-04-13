@@ -46,6 +46,7 @@ namespace PyroshockStudios {
             void SetCursorLockedToWindow(bool bLocked) override;
             void SetOpacity(f32 opacity) override;
             void SetCursor(ICursor* cursor) override;
+            void SetIcon(IBitmap* bitmap) override;
             void SetFullscreen(IMonitor* monitor) override;
             void SetWindowState(WindowState state) override;
             WindowState GetWindowState() const override;
@@ -53,7 +54,7 @@ namespace PyroshockStudios {
             void SetTitle(eastl::string_view title) override;
             Size GetFramebufferSize() const override;
             f32 GetDPIScale() const override;
-            FSize GetContentScale() const override;
+            Sizef GetContentScale() const override;
             CursorMode GetCursorMode() const override;
             bool IsStickyKeysEnabled() const override;
             bool IsStickyMouseButtonsEnabled() const override;

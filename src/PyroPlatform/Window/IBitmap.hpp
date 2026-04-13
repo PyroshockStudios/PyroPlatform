@@ -21,26 +21,19 @@
 // SOFTWARE.
 
 #pragma once
-#include <EASTL/string.h>
+
 #include <PyroCommon/Core.hpp>
 
 namespace PyroshockStudios {
     inline namespace Platform {
         struct IWindowManager;
-
-        struct IMonitor {
-            IMonitor() = default;
-
-            PYRO_NODISCARD virtual eastl::string GetName() const = 0;
-            PYRO_NODISCARD virtual Point GetPosition() const = 0;
-            PYRO_NODISCARD virtual Size GetPhysicalSize() const = 0;
-            PYRO_NODISCARD virtual Size GetResolution() const = 0;
-            PYRO_NODISCARD virtual Size GetWorkArea() const = 0;
-            PYRO_NODISCARD virtual Sizef GetContentScale() const = 0;
-            PYRO_NODISCARD virtual u32 GetRefreshRate() const = 0;
-
+        struct IBitmap {
+            IBitmap() = default;
+            
+            PYRO_NODISCARD virtual u32 GetWidth() const = 0;
+            PYRO_NODISCARD virtual u32 GetHeight() const = 0;
         protected:
-            virtual ~IMonitor() = default;
+            virtual ~IBitmap() = default;
             friend struct IWindowManager;
         };
     } // namespace Platform

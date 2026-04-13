@@ -27,6 +27,9 @@
 
 #define GLFW_NATIVE_INCLUDE_NONE
 #define GLFW_INCLUDE_NONE
+#include "GlfwBitmap.hpp"
+
+
 #include <GLFW/glfw3.h>
 #include <libassert/assert.hpp>
 
@@ -122,6 +125,19 @@ namespace PyroshockStudios {
             Logger::Error(gGlfwSink, "No monitor was found! Reason: {}", err);
             return nullptr;
         }
+        IBitmap* GlfwWindowManager::CreateStaticBitmap(const BitmapSource& source) {
+            ASSERT(bInitialised, "Window manager not initialised!");
+            ASSERT(static_cast<usize>(source.width) * source.height * 4 <= source.pixels.size(), "Not enough pixels provided! Must be in RGBA format!");
+            Logger::Trace(gGlfwSink, "Creating bitmap with size {}x{}", source.width, source.height);
+            return new GlfwBitmap(static_cast<int>(source.width), static_cast<int>(source.height), source.pixels.data());
+        }
+        void GlfwWindowManager::DestroyBitmap(IBitmap*& bitmap) {
+            ASSERT(bInitialised, "Window manager not initialised!");
+            Logger::Trace(gGlfwSink, "Destroying bitmap {}", (void*)bitmap);
+            GlfwBitmap* bmp = static_cast<GlfwBitmap*>(bitmap);
+            delete bmp;
+            bitmap = nullptr;
+        }
 
         IWindow* GlfwWindowManager::CreateWindow(const WindowInfo& info) {
             ASSERT(bInitialised, "Window manager not initialised!");
@@ -189,6 +205,11 @@ namespace PyroshockStudios {
                 return nullptr;
             }
             return new GlfwCursor(cur);
+        }
+        ICursor* GlfwWindowManager::CreateCursorFromBitmap(IBitmap* bitmap, Point pointerOffset) {
+            ASSERT(bInitialised, "Window manager not initialised!");
+            ASSERT(bitmap, "Do not create cursors with null bitmaps!");
+            return new GlfwCursor(glfwCreateCursor(static_cast<GlfwBitmap*>(bitmap)->GetGLFWImage(), pointerOffset.x, pointerOffset.y));
         }
 
         void GlfwWindowManager::DestroyCursor(ICursor*& cursor) {

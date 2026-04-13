@@ -20,28 +20,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-#include <EASTL/string.h>
-#include <PyroCommon/Core.hpp>
+#include "GlfwBitmap.hpp"
+#define GLFW_NATIVE_INCLUDE_NONE
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+#include <cstring>
 
 namespace PyroshockStudios {
     inline namespace Platform {
-        struct IWindowManager;
-
-        struct IMonitor {
-            IMonitor() = default;
-
-            PYRO_NODISCARD virtual eastl::string GetName() const = 0;
-            PYRO_NODISCARD virtual Point GetPosition() const = 0;
-            PYRO_NODISCARD virtual Size GetPhysicalSize() const = 0;
-            PYRO_NODISCARD virtual Size GetResolution() const = 0;
-            PYRO_NODISCARD virtual Size GetWorkArea() const = 0;
-            PYRO_NODISCARD virtual Sizef GetContentScale() const = 0;
-            PYRO_NODISCARD virtual u32 GetRefreshRate() const = 0;
-
-        protected:
-            virtual ~IMonitor() = default;
-            friend struct IWindowManager;
-        };
+        GlfwBitmap::GlfwBitmap(int width, int height, const unsigned char* pixels)
+            : mBitmap(new GLFWimage{ .width = width, .height = height }) {
+            if (mBitmap) {
+                usize bytes = static_cast<usize>(width) * height * 4;
+                mBitmap->pixels = new unsigned char[bytes];
+                if (mBitmap->pixels) {
+                    memcpy(mBitmap->pixels, pixels, bytes);
+                }
+            }
+        }
+        GlfwBitmap::~GlfwBitmap() {
+            if (mBitmap) {
+                delete[] mBitmap->pixels;
+                delete mBitmap;
+            }
+        }
+        u32 GlfwBitmap::GetWidth() const {
+            if (mBitmap)
+                return mBitmap->width;
+            return 0;
+        }
+        u32 GlfwBitmap::GetHeight() const {
+            if (mBitmap)
+                return mBitmap->height;
+            return 0;
+        }
     } // namespace Platform
 } // namespace PyroshockStudios

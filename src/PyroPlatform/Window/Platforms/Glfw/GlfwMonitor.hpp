@@ -39,7 +39,7 @@ namespace PyroshockStudios {
             Size GetPhysicalSize() const override;
             Size GetResolution() const override;
             Size GetWorkArea() const override;
-            FSize GetContentScale() const override;
+            Sizef GetContentScale() const override;
             u32 GetRefreshRate() const override;
 
             GLFWmonitor* GetGLFWMonitor() const {

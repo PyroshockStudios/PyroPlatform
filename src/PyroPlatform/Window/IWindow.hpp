@@ -26,10 +26,11 @@
 
 namespace PyroshockStudios {
     inline namespace Platform {
-        struct IWindowManager;
-        struct IWindowInput;
+        struct IBitmap;
         struct ICursor;
         struct IMonitor;
+        struct IWindowManager;
+        struct IWindowInput;
 
         enum struct WindowState : i32 {
             Normal,
@@ -84,7 +85,10 @@ namespace PyroshockStudios {
             virtual void SetCursorLockedToWindow(bool bLocked) = 0;
             virtual void SetOpacity(f32 opacity) = 0;
 
+            // If bitmap is set to nullptr, the cursor will be reset
             virtual void SetCursor(ICursor* cursor) = 0;
+            // If bitmap is set to nullptr, the icon will be reset
+            virtual void SetIcon(IBitmap* bitmap) = 0;
 
             // if monitor is set to nullptr, then fullscreen is exited
             virtual void SetFullscreen(IMonitor* monitor) = 0;
@@ -104,7 +108,7 @@ namespace PyroshockStudios {
 
             PYRO_NODISCARD virtual Size GetFramebufferSize() const = 0;
             PYRO_NODISCARD virtual f32 GetDPIScale() const = 0;
-            PYRO_NODISCARD virtual FSize GetContentScale() const = 0;
+            PYRO_NODISCARD virtual Sizef GetContentScale() const = 0;
 
             PYRO_NODISCARD virtual CursorMode GetCursorMode() const = 0;
             PYRO_NODISCARD virtual bool IsStickyKeysEnabled() const = 0;
@@ -137,11 +141,11 @@ namespace PyroshockStudios {
 
             PYRO_NODISCARD virtual IWindowInput* GetInputHandler() = 0;
 
-            // HWND on windows
+            // HWND on Windows
             // Window* on X11
             PYRO_NODISCARD virtual NativeHandle GetNativeWindow() const = 0;
 
-            // HINSTANCE on windows
+            // HINSTANCE on Windows
             // Display* on X11
             PYRO_NODISCARD virtual NativeHandle GetNativeInstance() const = 0;
 
