@@ -35,7 +35,7 @@ namespace PyroshockStudios {
 
         eastl::string GlfwMonitor::GetName() const {
             const char* name = glfwGetMonitorName(mMonitor);
-            return name ? eastl::string(name) : eastl::string("NAME_ERROR");
+            return name ? name : "";
         }
 
         Point GlfwMonitor::GetPosition() const {
@@ -50,13 +50,6 @@ namespace PyroshockStudios {
             return Size(widthMM, heightMM);
         }
 
-        Size GlfwMonitor::GetResolution() const {
-            const GLFWvidmode* mode = glfwGetVideoMode(mMonitor);
-            if (!mode)
-                return {};
-            return { static_cast<u32>(mode->width), static_cast<u32>(mode->height) };
-        }
-
         Size GlfwMonitor::GetWorkArea() const {
             int x, y;
             glfwGetMonitorWorkarea(mMonitor, nullptr, nullptr, &x, &y);
@@ -69,9 +62,29 @@ namespace PyroshockStudios {
             return Sizef(xScale, yScale);
         }
 
-        u32 GlfwMonitor::GetRefreshRate() const {
+        static MonitorVideoMode FromGlfwVidMode(const GLFWvidmode& mode) {
+            return {
+                .dimensions = { static_cast<u32>(mode.width), static_cast<u32>(mode.height) },
+                .colorBits = { static_cast<u32>(mode.redBits), static_cast<u32>(mode.greenBits),
+                    static_cast<u32>(mode.blueBits) },
+                .refreshRate = static_cast<u32>(mode.refreshRate),
+            };
+        }
+
+        MonitorVideoMode GlfwMonitor::GetCurrentVideoMode() const {
             const GLFWvidmode* mode = glfwGetVideoMode(mMonitor);
-            return mode ? static_cast<u32>(mode->refreshRate) : 0;
+            return mode ? FromGlfwVidMode(*mode) : MonitorVideoMode{};
+        }
+        eastl::span<const MonitorVideoMode> GlfwMonitor::GetVideoModes() const {
+            int count = 0;
+            const GLFWvidmode* modes = glfwGetVideoModes(mMonitor, &count);
+            mCacheVidModes.clear();
+            if (modes) {
+                for (int i = 0; i < count; ++i) {
+                    mCacheVidModes.push_back(FromGlfwVidMode(modes[i]));
+                }
+            }
+            return mCacheVidModes;
         }
     } // namespace Platform
 } // namespace PyroshockStudios

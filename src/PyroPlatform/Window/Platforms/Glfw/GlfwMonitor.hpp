@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #pragma once
+#include <EASTL/vector.h>
 #include <PyroCommon/Core.hpp>
 #include <PyroPlatform/Window/IMonitor.hpp>
 
@@ -37,16 +38,18 @@ namespace PyroshockStudios {
             eastl::string GetName() const override;
             Point GetPosition() const override;
             Size GetPhysicalSize() const override;
-            Size GetResolution() const override;
             Size GetWorkArea() const override;
             Sizef GetContentScale() const override;
-            u32 GetRefreshRate() const override;
+
+            MonitorVideoMode GetCurrentVideoMode() const override;
+            eastl::span<const MonitorVideoMode> GetVideoModes() const override;
 
             GLFWmonitor* GetGLFWMonitor() const {
                 return mMonitor;
             }
 
         private:
+            mutable eastl::vector<MonitorVideoMode> mCacheVidModes = {};
             GLFWmonitor* mMonitor = nullptr;
         };
     } // namespace Platform

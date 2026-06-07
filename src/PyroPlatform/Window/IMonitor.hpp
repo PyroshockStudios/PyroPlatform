@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #pragma once
+#include <EASTL/span.h>
 #include <EASTL/string.h>
 #include <PyroCommon/Core.hpp>
 
@@ -28,16 +29,29 @@ namespace PyroshockStudios {
     inline namespace Platform {
         struct IWindowManager;
 
+        struct ColorBits {
+            u32 red = 0;
+            u32 green = 0;
+            u32 blue = 0;
+        };
+
+        struct MonitorVideoMode {
+            Size dimensions = {};
+            ColorBits colorBits = {};
+            u32 refreshRate = {};
+        };
+
         struct IMonitor {
             IMonitor() = default;
 
             PYRO_NODISCARD virtual eastl::string GetName() const = 0;
             PYRO_NODISCARD virtual Point GetPosition() const = 0;
             PYRO_NODISCARD virtual Size GetPhysicalSize() const = 0;
-            PYRO_NODISCARD virtual Size GetResolution() const = 0;
             PYRO_NODISCARD virtual Size GetWorkArea() const = 0;
             PYRO_NODISCARD virtual Sizef GetContentScale() const = 0;
-            PYRO_NODISCARD virtual u32 GetRefreshRate() const = 0;
+
+            PYRO_NODISCARD virtual MonitorVideoMode GetCurrentVideoMode() const = 0;
+            PYRO_NODISCARD virtual eastl::span<const MonitorVideoMode> GetVideoModes() const = 0;
 
         protected:
             virtual ~IMonitor() = default;
