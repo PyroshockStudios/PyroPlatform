@@ -102,6 +102,13 @@ namespace PyroshockStudios {
         }
 
         void GlfwGamepadManager::JoystickStatusCallback(int jid, int event) {
+            if (!glfwJoystickIsGamepad(jid)) {
+                if (event == GLFW_CONNECTED) {
+                    // don't care about non-game pads
+                    Logger::Debug(gGamepadSink, "GLFW: Joystick {} was ignored: joystick was not identified as a gamepad", jid);
+                }
+                return;
+            }
             Logger::Debug(gGamepadSink, "GLFW: Joystick {} was {}", jid, event == GLFW_CONNECTED ? "connected" : "disconnected");
 
             GamepadIdentifier identifier = jid;
