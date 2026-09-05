@@ -103,6 +103,19 @@
 #endif
 #endif
 
+
+// WINDOWING
+#ifdef PYRO_PLATFORM_GAMEPAD
+#ifdef PYRO_PLATFORM_GAMEPAD_GLFW
+#include <PyroPlatform/Gamepad/Platforms/Glfw/GlfwGamepadManager.hpp>
+#define GamepadManager GlfwGamepadManager
+#endif
+
+#ifndef GamepadManager
+#error IGamepadManager not implemented!
+#endif
+#endif
+
 #endif
 
 namespace PyroshockStudios {
@@ -156,6 +169,21 @@ namespace PyroshockStudios {
 #else
         template <>
         PYRO_PLATFORM_API IWindowManager* PlatformFactory::Get<IWindowManager>() {
+            return nullptr;
+        }
+#endif
+#endif
+
+#ifdef PYRO_PLATFORM_GAMEPAD
+#ifndef PYRO_PLATFORM_DUMMY_INTERFACE
+        static GamepadManager gGamepadManager;
+        template <>
+        PYRO_PLATFORM_API IWindowManager* PlatformFactory::Get<IGamepadManager>() {
+            return &gGamepadManager;
+        }
+#else
+        template <>
+        PYRO_PLATFORM_API IWindowManager* PlatformFactory::Get<IGamepadManager>() {
             return nullptr;
         }
 #endif

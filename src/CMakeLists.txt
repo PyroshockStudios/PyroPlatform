@@ -75,30 +75,55 @@ endif()
 # Platform windowing sources
 # ------------------------------
 if(PYRO_PLATFORM_WINDOWING)
-    file(GLOB PLATFORM_WINDOWING_INTERFACE
-        "${SH_SRC}/Window/*.hpp"
-    )
-    list(APPEND ENDF6_SRC ${PLATFORM_WINDOWING_INTERFACE})
-	
+	file(GLOB PLATFORM_WINDOWING_INTERFACE
+			"${SH_SRC}/Window/*.hpp"
+	)
+	list(APPEND ENDF6_SRC ${PLATFORM_WINDOWING_INTERFACE})
+
 	file(GLOB_RECURSE PLATFORM_WINDOWING_INPUT_SRC
-		"${SH_SRC}/Window/Input/*.hpp"
-		"${SH_SRC}/Window/Input/*.cpp"
+			"${SH_SRC}/Window/Input/*.hpp"
+			"${SH_SRC}/Window/Input/*.cpp"
 	)
 	list(APPEND ENDF6_SRC ${PLATFORM_WINDOWING_INPUT_SRC})
-		
+
 	if (NOT PYRO_PLATFORM_DUMMY_INTERFACE)
 		file(GLOB_RECURSE PLATFORM_WINDOW_SRC
-			"${SH_SRC}/Window/Platforms/${PYRO_PLATFORM_WINDOWING_DIRNAME}/*.hpp"
-			"${SH_SRC}/Window/Platforms/${PYRO_PLATFORM_WINDOWING_DIRNAME}/*.cpp"
+				"${SH_SRC}/Window/Platforms/${PYRO_PLATFORM_WINDOWING_DIRNAME}/*.hpp"
+				"${SH_SRC}/Window/Platforms/${PYRO_PLATFORM_WINDOWING_DIRNAME}/*.cpp"
 		)
 		list(APPEND ENDF6_SRC ${PLATFORM_WINDOW_SRC})
 
 		if(APPLE)
 			file(GLOB_RECURSE PLATFORM_WINDOW_MM
-				"${SH_SRC}/Window/Platforms/${PYRO_PLATFORM_WINDOWING_DIRNAME}/*.mm"
+					"${SH_SRC}/Window/Platforms/${PYRO_PLATFORM_WINDOWING_DIRNAME}/*.mm"
 			)
 			list(APPEND ENDF6_SRC ${PLATFORM_WINDOW_MM})
 		endif()
+	endif()
+endif()
+
+
+# ------------------------------
+# Platform gamepad sources
+# ------------------------------
+if(PYRO_PLATFORM_GAMEPAD)
+	file(GLOB PLATFORM_GAMEPAD_INTERFACE
+			"${SH_SRC}/Gamepad/*.hpp"
+	)
+	list(APPEND ENDF6_SRC ${PLATFORM_GAMEPAD_INTERFACE})
+
+	file(GLOB_RECURSE PLATFORM_GAMEPAD_INPUT_SRC
+			"${SH_SRC}/Gamepad/Input/*.hpp"
+			"${SH_SRC}/Gamepad/Input/*.cpp"
+	)
+	list(APPEND ENDF6_SRC ${PLATFORM_GAMEPAD_INPUT_SRC})
+
+	if (NOT PYRO_PLATFORM_DUMMY_INTERFACE)
+		file(GLOB_RECURSE PLATFORM_GAMEPAD_SRC
+				"${SH_SRC}/Gamepad/Platforms/${PYRO_PLATFORM_GAMEPAD_DIRNAME}/*.hpp"
+				"${SH_SRC}/Gamepad/Platforms/${PYRO_PLATFORM_GAMEPAD_DIRNAME}/*.cpp"
+		)
+		list(APPEND ENDF6_SRC ${PLATFORM_GAMEPAD_SRC})
 	endif()
 endif()
 
@@ -118,8 +143,11 @@ endif()
 if (PYRO_PLATFORM_TIME) 
 target_compile_definitions(PyroPlatform PUBLIC PYRO_PLATFORM_TIME=1)
 endif()
-if (PYRO_PLATFORM_WINDOWING) 
-target_compile_definitions(PyroPlatform PUBLIC PYRO_PLATFORM_WINDOWING=1)
+if (PYRO_PLATFORM_WINDOWING)
+	target_compile_definitions(PyroPlatform PUBLIC PYRO_PLATFORM_WINDOWING=1)
+endif()
+if (PYRO_PLATFORM_GAMEPAD)
+	target_compile_definitions(PyroPlatform PUBLIC PYRO_PLATFORM_GAMEPAD=1)
 endif()
 
 
