@@ -27,6 +27,7 @@
 #include <PyroPlatform/Window/WindowEvents.hpp>
 
 #include <GLFW/glfw3.h>
+#include <PyroPlatform/Window/Input/PathDropEvent.hpp>
 
 namespace PyroshockStudios {
     inline namespace Platform {
@@ -58,6 +59,7 @@ namespace PyroshockStudios {
             glfwSetWindowFocusCallback(mWindow->GetGLFWWindow(), GlfwWindowInput::FocusCallback);
             glfwSetWindowCloseCallback(mWindow->GetGLFWWindow(), GlfwWindowInput::CloseCallback);
             glfwSetWindowPosCallback(mWindow->GetGLFWWindow(), GlfwWindowInput::PositionCallback);
+            glfwSetDropCallback(mWindow->GetGLFWWindow(), GlfwWindowInput::PathDropCallback);
         }
 
         void GlfwWindowInput::KeyCallback(GLFWwindow* window, int key, int scanCode, int action, int mods) {
@@ -125,5 +127,11 @@ namespace PyroshockStudios {
             WindowEvents& events = pThis->GetInputHandler()->GetEvents();
             events.GetEventDispatcher<WindowPositionEvent>().Dispatch(event);
         }
-    }
+        void GlfwWindowInput::PathDropCallback(GLFWwindow* window, int path_count, const char* paths[]) {
+            GlfwWindow* pThis = reinterpret_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+            PathDropEvent event = PathDropEvent(*pThis, eastl::span(paths, path_count));
+            WindowEvents& events = pThis->GetInputHandler()->GetEvents();
+            events.GetEventDispatcher<PathDropEvent>().Dispatch(event);
+        }
+    } // namespace Platform
 }

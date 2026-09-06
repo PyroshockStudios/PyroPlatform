@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2025 Pyroshock Studios
+// Copyright (c) 2025-2026 Pyroshock Studios
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,54 +21,36 @@
 // SOFTWARE.
 
 #pragma once
-#include <EASTL/string.h>
-#include <PyroCommon/Core.hpp>
-#include <PyroPlatform/Core.hpp>
-#include <PyroPlatform/Forward.hpp>
-#include <PyroPlatform/Window/Input/Types.hpp>
+#include "InputEvent.hpp"
+#include <EASTL/span.h>
+#include <cstdio>
 
 namespace PyroshockStudios {
     inline namespace Platform {
-        enum class InputEventType : i32 {
-            Unknown = -1,
-            Key,
-            Mouse,
-            CursorScroll,
-            CursorPosition,
-            CursorEnter,
-            CharInput,
-            WindowClose,
-            WindowFocus,
-            WindowPosition,
-            WindowResize,
-            PathDrop,
-            COUNT
-        };
-
-        template <enum InputEventType E = InputEventType::Unknown>
-        class InputEvent : DeleteCopy {
+        class PathDropEvent : public InputEvent<InputEventType::PathDrop> {
         public:
-            static constexpr InputEventType Type = E;
+            PathDropEvent(IWindow& sender, eastl::span<const char*> paths)
+                : InputEvent(sender), kPaths(paths) {}
 
-            InputEvent(IWindow& sender)
-                : mWindow(sender) {}
-            virtual ~InputEvent() = default;
-
-            virtual InputEventType GetType() const = 0;
-            virtual eastl::string GetName() const = 0;
-            virtual eastl::string ToString() const = 0;
-
-            IWindow* Sender() {
-                return &mWindow;
+            InputEventType GetType() const override {
+                return InputEventType::Mouse;
+            }
+            eastl::string GetName() const override {
+                return "PathDropEvent";
+            }
+            eastl::string ToString() const override {
+                eastl::string pathBuilder = "";
+                for (const char* path : kPaths) {
+                    if (!pathBuilder.empty())
+                        pathBuilder += ", ";
+                    pathBuilder += "\"";
+                    pathBuilder += path;
+                    pathBuilder += "\"";
+                }
+                return "Paths dropped: " + pathBuilder;
             }
 
-            bool WasHandled() const {
-                return bHandled;
-            }
-
-        protected:
-            bool bHandled = false;
-            IWindow& mWindow;
+            const eastl::span<const char*> kPaths;
         };
     } // namespace Platform
 } // namespace PyroshockStudios

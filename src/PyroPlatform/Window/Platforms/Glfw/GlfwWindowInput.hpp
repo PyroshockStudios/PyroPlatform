@@ -55,6 +55,7 @@ namespace PyroshockStudios {
             static void FocusCallback(GLFWwindow* window, int focussed);
             static void CloseCallback(GLFWwindow* window);
             static void PositionCallback(GLFWwindow* window, int x, int y);
+            static void PathDropCallback(GLFWwindow* window, int path_count, const char* paths[]);
 
             GlfwWindow* mWindow = nullptr;
             WindowEvents* mEvents = nullptr;

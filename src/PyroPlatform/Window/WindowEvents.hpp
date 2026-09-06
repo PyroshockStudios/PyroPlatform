@@ -21,6 +21,8 @@
 // SOFTWARE.
 
 #pragma once
+
+
 #include <EASTL/array.h>
 #include <EASTL/variant.h>
 
@@ -32,6 +34,7 @@
 #include <PyroPlatform/Window/Input/InputEventDispatcher.hpp>
 #include <PyroPlatform/Window/Input/KeyEvent.hpp>
 #include <PyroPlatform/Window/Input/MouseEvent.hpp>
+#include <PyroPlatform/Window/Input/PathDropEvent.hpp>
 #include <PyroPlatform/Window/Input/Types.hpp>
 #include <PyroPlatform/Window/Input/WindowCloseEvent.hpp>
 #include <PyroPlatform/Window/Input/WindowFocusEvent.hpp>
@@ -54,7 +57,8 @@ namespace PyroshockStudios {
                     InputEventDispatcher<WindowCloseEvent>,
                     InputEventDispatcher<WindowFocusEvent>,
                     InputEventDispatcher<WindowPositionEvent>,
-                    InputEventDispatcher<WindowResizeEvent>>,
+                    InputEventDispatcher<WindowResizeEvent>,
+                    InputEventDispatcher<PathDropEvent>>,
                 static_cast<usize>(InputEventType::COUNT)>;
 
             WindowEvents() = default;
@@ -95,7 +99,8 @@ namespace PyroshockStudios {
                 InputEventDispatcher<WindowCloseEvent>(),
                 InputEventDispatcher<WindowFocusEvent>(),
                 InputEventDispatcher<WindowPositionEvent>(),
-                InputEventDispatcher<WindowResizeEvent>()
+                InputEventDispatcher<WindowResizeEvent>(),
+                InputEventDispatcher<PathDropEvent>()
             };
         };
     } // namespace Platform
