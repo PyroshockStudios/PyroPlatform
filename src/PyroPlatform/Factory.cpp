@@ -178,7 +178,7 @@ namespace PyroshockStudios {
 #ifndef PYRO_PLATFORM_DUMMY_INTERFACE
         static GamepadManager gGamepadManager;
         template <>
-        PYRO_PLATFORM_API IWindowManager* PlatformFactory::Get<IGamepadManager>() {
+        PYRO_PLATFORM_API IGamepadManager* PlatformFactory::Get<IGamepadManager>() {
             return &gGamepadManager;
         }
 #else
